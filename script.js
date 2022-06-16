@@ -74,10 +74,29 @@ function game() {
     
     console.log(`You have chosen ${userChoice}. Computer has chosen ${computerChoice}`);
     
-    compareChoices(computerChoice, userChoice);
+    let score = compareChoices(computerChoice, userChoice);
+
+    //let userScore = score[0];
+    //let computerScore = score[1];
+    return(score);
 
 }
 
-game();
+//need to produce a score from each game
+
+let score = [0,0];
+
+for (i=0; i<5; i++) {
+    newScore = game();
+
+    console.log(newScore);
+    
+    score[0] = score[0] + newScore[0];
+    score[1] = score[1] + newScore[1];
+    
+    console.log(`Games Played: ${i+1}. Player score: ${score[0]}. Computer score: ${score[1]}.`);
+
+    console.log(score);
+}
 
 //output a result!
