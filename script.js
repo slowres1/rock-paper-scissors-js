@@ -15,7 +15,7 @@ function getUserInput () {
 //generate computer choice
 function getComputerInput () {
     let computerInput = Math.floor(Math.random() * 3);
-    console.log(computerInput);
+    //console.log(computerInput);
     let computerChoice;
     switch (computerInput) {
         case 0:
@@ -32,71 +32,73 @@ function getComputerInput () {
 }
 //compare user and computer input
 function compareChoices(computerChoice, userChoice) {
-    let draw;
-    let computerWins;
-    let userWins;
-    let score = [];
+    let result;
     if (userChoice === computerChoice) {
-        draw = true;
+        return result = 'draw';
     } else if (userChoice === 'rock') {
         if (computerChoice === 'paper') {
-            computerWins = true;    
+            return result = 'computer';    
         }
     } else if (userChoice === 'paper') {
         if (computerChoice === 'scissors') {
-            computerWins = true; 
+            return result = 'computer'; 
         }
     } else {
         if (computerChoice === 'rock') {
-            computerWins = true; 
+            return result = 'computer'; 
         }
     }
-    if (draw) {
-        score = [0,0];
-        console.log("It's a DRAW!");
-    } else if (computerWins) {
-        score = [0,1];
-        console.log('Computer Wins!');
-    } else {
-        score = [1,0];
-        console.log('Player Wins!');
-    }
-    return score;
 }
 
-function game() {
-    let userChoice;
-    while (!userChoice) {
-        userChoice = getUserInput();
-    }
+function game(userInput, score) {
 
+    const selection = document.querySelector('.selection');
+    /*const oldText = document.querySelectorAll('.displayChoice, .displayResult');
+    if (oldText) {
+        selection.removeChild(oldText);
+    } */
+    while (selection.firstChild) {
+        selection.removeChild(selection.lastChild);
+    };
+
+    let userChoice = userInput;
     let computerChoice = getComputerInput();
-    
-    console.log(`You have chosen ${userChoice}. Computer has chosen ${computerChoice}`);
-    
-    let score = compareChoices(computerChoice, userChoice);
 
-    //let userScore = score[0];
-    //let computerScore = score[1];
-    return(score);
+    const displayChoices = document.createElement('h1');
+    displayChoices.textContent = `You have chosen ${userChoice}. Computer has chosen ${computerChoice}.`;
+    displayChoices.classList.add('displayChoice');
+    selection.appendChild(displayChoices);
 
+    let result = compareChoices(computerChoice, userChoice);
+    let playerScore = document.querySelector('#playerScore');
+    let computerScore = document.querySelector('#computerScore');
+
+    const displayResult = document.createElement('h1');
+    displayResult.classList.add('displayResult');
+    if (result=== 'draw') {
+        displayResult.textContent = 'It\'s a draw!';
+    } else if (result === 'computer') {
+        displayResult.textContent = 'Computer wins!';
+        score[1] += 1;
+        computerScore.textContent = `Computer score: ${score[1]}`;
+    } else {
+        displayResult.textContent = 'Player wins!';
+        score[0] += 1;
+        playerScore.textContent = `Player score: ${score[0]}`;
+    }
+    selection.appendChild(displayResult);
 }
 
-//need to produce a score from each game
+const buttons = document.querySelectorAll('button');
 
-let score = [0,0];
+score = [0,0];
 
-for (i=0; i<5; i++) {
-    newScore = game();
+buttons.forEach((button => {
+    button.addEventListener('click', () => {
+        let userInput = button.id;
+        game(userInput, score);        
+    });
+}));
 
-    console.log(newScore);
-    
-    score[0] = score[0] + newScore[0];
-    score[1] = score[1] + newScore[1];
-    
-    console.log(`Games Played: ${i+1}. Player score: ${score[0]}. Computer score: ${score[1]}.`);
-
-    console.log(score);
-}
 
 //output a result!
