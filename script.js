@@ -78,15 +78,27 @@ function game(userInput, score) {
     if (result=== 'draw') {
         displayResult.textContent = 'It\'s a draw!';
     } else if (result === 'computer') {
-        displayResult.textContent = 'Computer wins!';
+        displayResult.textContent = 'Computer wins this round!';
         score[1] += 1;
         computerScore.textContent = `Computer score: ${score[1]}`;
     } else {
-        displayResult.textContent = 'Player wins!';
+        displayResult.textContent = 'Player wins this round!';
         score[0] += 1;
         playerScore.textContent = `Player score: ${score[0]}`;
     }
     selection.appendChild(displayResult);
+    if (score[0] === 5) {
+        const winner = document.createElement('h1');
+        winner.textContent = 'Player wins! Congratulations!';
+        selection.appendChild(winner);
+    } else if (score[1] === 5) {
+        const winner = document.createElement('h1');
+        winner.textContent = 'Computer wins! Unlucky!';
+        selection.appendChild(winner);
+    } else {
+        return;
+    }
+
 }
 
 const buttons = document.querySelectorAll('button');
